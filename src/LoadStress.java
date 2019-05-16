@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-
 public class LoadStress {
     public static final String EXTENSION_DIRECTORY = "java.ext.dirs";
     public static final String JAR_EXTENSION = ".jar";
     public static final String CLASS_EXTENSION = ".class";
-    public static final String LANG_LIBRARY = "java.lang";
+    public static final String LANG_LIBRARY = "java.util";
+    public static final String EXT_KEYWORD = "ext";
 
     public int loadedClasses;
 
@@ -20,9 +20,10 @@ public class LoadStress {
     }
 
     public void loadClasses() {
-        String [] allExtensionDirectories = System.getProperty(EXTENSION_DIRECTORY).split(";");
-        String jrePath = allExtensionDirectories[0];
-        jrePath = jrePath.substring(0, jrePath.length() - ("/ext").length());
+        String allExtensionDirectories = System.getProperty(EXTENSION_DIRECTORY);
+        int lastIndex = allExtensionDirectories.indexOf(EXT_KEYWORD) - 1; //finds the last index of string to cutoff from extension directories
+        String jrePath = allExtensionDirectories.substring(0, lastIndex);
+        System.out.println(jrePath);
         
         try {
             File jreFolder = new File(jrePath);
@@ -65,7 +66,6 @@ public class LoadStress {
                     if (name.startsWith(LANG_LIBRARY)) {
                         classNames.add(name);
                     }
-                    
                 }
             }
             jarFile.close();
@@ -83,7 +83,6 @@ public class LoadStress {
                 System.out.println("Could not find class file.");
                 e.printStackTrace();
             }            
-            
         }
     }
 }
