@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # Assumes you made a soft link to the openj9's java debug build, and you named it 'j9debug'
-J9DebugSoftLinkName=j9debug
+J9DebugSoftLinkName=$1
 DumpDirectoryName=StateDump
 ROMFileName=$DumpDirectoryName/ROM_Class_Dump
 RAMFileName=$DumpDirectoryName/RAM_Class_Dump
 ROMCommandFileName=gdbROMCommandFile
 RAMCommandFileName=gdbRAMCommandFile
 
-rm $ROMFileName
-rm $RAMFileName
+rm -f $ROMFileName
+rm -f $RAMFileName
 
-mkdir $DumpDirectoryName
+mkdir -p $DumpDirectoryName
 
 gdb $J9DebugSoftLinkName -q --command=$ROMCommandFileName >> $ROMFileName
 gdb $J9DebugSoftLinkName -q --command=$RAMCommandFileName >> $RAMFileName
