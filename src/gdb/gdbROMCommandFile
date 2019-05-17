@@ -1,0 +1,23 @@
+# Setup toggles and the program to debug
+set breakpoint pending on
+set confirm off
+set pagination off
+set print thread-events off
+
+# Setup the breakpoint with it's own custom commands
+break defineclass.c:168
+commands
+	silent
+	printf "\n"
+
+	x/s className
+	p *romClass
+
+	printf "\n"
+	cont
+end
+
+# Run the program
+r -version
+quit
+
