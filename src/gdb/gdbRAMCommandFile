@@ -18,6 +18,5 @@ commands
 end
 
 # Run the program
-r -version
+r
 quit
-
