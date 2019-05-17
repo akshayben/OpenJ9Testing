@@ -18,5 +18,5 @@ commands
 end
 
 # Run the program
-r
+r -Xshareclasses:name=testCache
 quit

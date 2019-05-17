@@ -10,6 +10,12 @@ commands
 	silent
 	printf "\n"
 
+	if existingROMClass == ((void *) 0)
+		printf "Newly Generated ROM Class\n"
+	else
+		printf "Cached ROM Class\n"
+	end
+
 	x/s className
 	p *romClass
 
@@ -18,5 +24,5 @@ commands
 end
 
 # Run the program
-r
+r -Xshareclasses:name=testCache
 quit
