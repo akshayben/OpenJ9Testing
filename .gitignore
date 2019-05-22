@@ -1,2 +1,8 @@
+### gdb ###
 src/gdb/StateDump/
+
+### java ###
 *.class
+
+### perf ###
+*.data
