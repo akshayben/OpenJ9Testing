@@ -60,7 +60,7 @@ void destroyJVMImage(struct JVMImage *image) {
 
 int main() {
     const char *test = "data";
-    printf(test);
+    printf("%s", test);
     struct JVMImage *image = initializeJVMImage();
     image->writeImageToFile(image);
     destroyJVMImage(image);
