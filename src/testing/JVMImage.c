@@ -8,34 +8,47 @@ typedef unsigned long int UDATA;
 typedef struct JVMImage {
     int timeStamp;
     FILE *fptr;
-    char *fileName;
-    void (*init)();
+    const char *fileName;
+    int isAlreadyCached;
+    void (*init)(struct JVMImage *image, const char *fileName);
     void (*subAllocateMemory)(struct JVMImage *image, unsigned long int size);
     void (*writeImageToFile)(struct JVMImage *image);
-    void (*readImageToFile)(struct JVMImage *image);
-    void (*destroy)();
+    void (*readImageFromFile)(struct JVMImage *image);
+    void (*destroy)(struct JVMImage *image);
 } JVMImage;
 
-void init(struct JVMImage *image, char *fileName) {
+int fileExists(const char *fileName) {
+    FILE *file = fopen(fileName, "r");
+    if (file != NULL) {
+        fclose(file);
+        return 1;
+    }
+    return 0;
+}
+
+void init(struct JVMImage *image, const char *fileName) {
     image->fileName = fileName;
-    image->fptr = fopen(image->fileName, "rb+");
+    image->fptr = fopen(FILENAME, "ab+");
 }
 
 void subAllocateMemory(struct JVMImage *image, UDATA size) {
 
 }
 
-void readImageToFile(struct JVMImage *image) {
-
+void readImageFromFile(struct JVMImage *image) {
+    char *test = NULL;
+    printf("%p\n", test);
+    fread(&test, sizeof(char *), 1, image->fptr);
+    printf("%p\n", test);
+    printf("%s\n", test);
 }
 
 void writeImageToFile(struct JVMImage *image) {
-    char *test = "data";
-    //fwrite(, sizeof(char *), 1, image->fptr)
-}
-
-void *fetchData(UDATA id) {
-
+    char *test = malloc(sizeof(char) * 5);
+    test = "test";
+    printf("%p\n", test);
+    printf("%s\n", test);
+    fwrite(&test, sizeof(char *), 1, image->fptr);
 }
 
 void destroy(struct JVMImage *image) {
@@ -43,13 +56,14 @@ void destroy(struct JVMImage *image) {
 }
 
 struct JVMImage *initializeJVMImage() {
-    struct JVMImage *image = malloc(sizeof(JVMImage));
+    struct JVMImage *image = (struct JVMImage *)malloc(sizeof(struct JVMImage));
+    image->isAlreadyCached = fileExists(FILENAME);
     image->init = init;
     image->subAllocateMemory = subAllocateMemory;
-    image->readImageToFile = readImageToFile;    
+    image->readImageFromFile = readImageFromFile;    
     image->writeImageToFile = writeImageToFile;
     image->destroy = destroy;
-    image->init();
+    image->init(image, FILENAME);
     return image;
 }
 
@@ -59,10 +73,13 @@ void destroyJVMImage(struct JVMImage *image) {
 }
 
 int main() {
-    const char *test = "data";
-    printf("%s", test);
     struct JVMImage *image = initializeJVMImage();
-    image->writeImageToFile(image);
+    if (image->isAlreadyCached) {
+        image->readImageFromFile(image);
+    }
+    else {
+        image->writeImageToFile(image);
+    }
     destroyJVMImage(image);
     return 0;
 }
