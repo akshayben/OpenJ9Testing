@@ -16,26 +16,9 @@ typedef struct JVMImage {
     void (*destroy)();
 } JVMImage;
 
-struct JVMImage *initializeJVMImage() {
-    struct JVMImage *image = malloc(sizeof(JVMImage));
-    image->init = init;
-    image->subAllocateMemory = subAllocateMemory;
-    image->readImageToFile = readImageToFile;    
-    image->writeImageToFile = writeImageToFile;
-    image->destroy = destroy;
-    image->init();
-    return image;
-}
-
-void destroyJVMImage(struct JVMImage *image) {
-    image->destroy(image);
-    free(image);
-}
-
 void init(struct JVMImage *image, char *fileName) {
     image->fileName = fileName;
     image->fptr = fopen(image->fileName, "rb+");
-
 }
 
 void subAllocateMemory(struct JVMImage *image, UDATA size) {
@@ -56,11 +39,27 @@ void *fetchData(UDATA id) {
 }
 
 void destroy(struct JVMImage *image) {
-    fclose(image->fileName);
+    fclose(image->fptr);
+}
+
+struct JVMImage *initializeJVMImage() {
+    struct JVMImage *image = malloc(sizeof(JVMImage));
+    image->init = init;
+    image->subAllocateMemory = subAllocateMemory;
+    image->readImageToFile = readImageToFile;    
+    image->writeImageToFile = writeImageToFile;
+    image->destroy = destroy;
+    image->init();
+    return image;
+}
+
+void destroyJVMImage(struct JVMImage *image) {
+    image->destroy(image);
+    free(image);
 }
 
 int main() {
-    char *test = "data";
+    const char *test = "data";
     printf(test);
     struct JVMImage *image = initializeJVMImage();
     image->writeImageToFile(image);
