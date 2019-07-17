@@ -1,0 +1,2 @@
+Instructions:
+Run the following command: "bash ./benchmarkJVM.sh java JavaProgramYouWantToRun -OptionalTags"
