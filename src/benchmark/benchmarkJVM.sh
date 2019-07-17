@@ -23,9 +23,18 @@ rm -f $FileDump
 
 # Loop and find the timing of each invokation
 counter=1
-while [ $counter -le 10 ]
+while [ $counter -le 100 ]
 do
-	bash logTime.sh $JVMName $JavaProgram $3 $4 $5 &>> $FileDump
+	if [ ! -z "$5" ]; then
+		bash logTime.sh $JVMName $JavaProgram $3 $4 $5 &>> $FileDump
+	elif [ ! -z "$4" ]; then
+		bash logTime.sh $JVMName $JavaProgram $3 $4 &>> $FileDump
+	elif [ ! -z "$3" ]; then
+		bash logTime.sh $JVMName $JavaProgram $3 &>> $FileDump
+	else
+		bash logTime.sh $JVMName $JavaProgram $3 $4 $5 &>> $FileDump
+	fi
+
 	((counter++))
 done
 
