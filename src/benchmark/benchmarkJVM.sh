@@ -2,6 +2,7 @@
 
 # Argument List: $1 = The java jvm you want to run (defaults to the name java)
 #		 $2 = The java program you want the jvm to run (default to just running java)(e.g. HelloWorld)
+#		 $3...$10 = Extra arguments for the JVM
 if [ -z "$1" ] ; then
 	JVMName=java
 else
@@ -22,9 +23,9 @@ rm -f $FileDump
 
 # Loop and find the timing of each invokation
 counter=1
-while [ $counter -le 100 ]
+while [ $counter -le 10 ]
 do
-	bash logTime.sh $JVMName $JavaProgram &>> $FileDump
+	bash logTime.sh $JVMName $JavaProgram $3 $4 $5 $6 $7 $8 $9 $10 &>> $FileDump
 	((counter++))
 done
 

@@ -5,5 +5,5 @@ JavaProgram=$2
 
 TIMEFORMAT='%U'
 time {
-	$JVMName $JavaProgram &> /dev/null
+	$JVMName $3 $4 $5 $JavaProgram &> /dev/null
 }

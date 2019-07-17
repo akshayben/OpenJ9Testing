@@ -1,2 +1,3 @@
 Instructions:
+Compile the Java code you wish to benchmark ("javac JavaProgramYouWantToRun")
 Run the following command: "bash ./benchmarkJVM.sh java JavaProgramYouWantToRun -OptionalTags"
