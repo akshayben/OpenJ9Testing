@@ -49,12 +49,9 @@ public class CalculateStatistics {
 		stdDev = (float)Math.sqrt(differenceMean2);
 		
 		// Print out the stats
-		System.out.println("Total # of Executions: " + count);
-		System.out.printf("Total Startup Time: %.1fms\n", sum * 1000);
+		System.out.println("Total Executions: " + count);
 		System.out.printf("Average Startup Time: %.1fms\n", mean * 1000);
-		System.out.printf("Startup Time Standard Deviation: %.1fms\n", stdDev * 1000);
-		System.out.printf("Min Startup Time: %.1fms\n", min * 1000);
-		System.out.printf("Max Startup time: %.1fms\n", max * 1000);
+		System.out.printf("Standard Deviation: %.1fms\n", stdDev * 1000);
 	}
 
 }
